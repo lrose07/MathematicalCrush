@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 class CrushController {
 
@@ -15,6 +17,7 @@ class CrushController {
     void crushButtonClicked(int x, int y) {
         checkForMatches(x, y);
         convertMatchesListToArray();
+        sortByY(matchesArray);
         grid.update(matchesArray);
     }
 
@@ -59,6 +62,11 @@ class CrushController {
             matchesArray[i][0] = matchesFoundList.get(i)[0];
             matchesArray[i][1] = matchesFoundList.get(i)[1];
         }
+    }
+
+    void sortByY(int[][] arr) {
+        Arrays.sort(arr, Comparator.comparingDouble(a -> a[1]));
+        matchesArray = arr;
     }
 
     int getSymbolByLocation(int row, int col) {
