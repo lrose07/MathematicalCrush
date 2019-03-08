@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 class CrushController {
 
-    CrushGrid grid;
+    private CrushGrid grid;
 
-    private ArrayList<int[]> matchesFound = new ArrayList<>();
+    private ArrayList<int[]> matchesFoundList = new ArrayList<>();
+    private int[][] matchesArray;
 
     CrushController() {
         grid = new CrushGrid(this);
@@ -13,11 +14,13 @@ class CrushController {
 
     void crushButtonClicked(int x, int y) {
         checkForMatches(x, y);
+        convertMatchesListToArray();
+        grid.update(matchesArray);
     }
 
     private void checkForMatches(int initX, int initY) {
         int[] current = {initX, initY};
-        matchesFound.add(current);
+        matchesFoundList.add(current);
         int comparisonSymbol = getSymbolByLocation(initX, initY);
         int leftX = initX == 0 ? -1 : initX - 1;
         int rightX = initX == 7 ? -1 : initX + 1;
@@ -42,12 +45,20 @@ class CrushController {
     }
 
     private boolean isNotInListAlready(int[] arr) {
-        for (int[] set : matchesFound) {
+        for (int[] set : matchesFoundList) {
             if ((set[0] != arr[0]) || (set[1] != arr[1])) {
                 return false;
             }
         }
         return true;
+    }
+
+    private void convertMatchesListToArray() {
+        matchesArray = new int[matchesFoundList.size()][2];
+        for (int i = 0; i < matchesFoundList.size(); i++) {
+            matchesArray[i][0] = matchesFoundList.get(i)[0];
+            matchesArray[i][1] = matchesFoundList.get(i)[1];
+        }
     }
 
     int getSymbolByLocation(int row, int col) {

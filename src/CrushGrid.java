@@ -20,6 +20,11 @@ public class CrushGrid {
         }
     }
 
+    void update(int[][] matchesFound) {
+        // sort list by y
+        // then fall down isn't dependent on how many are in each column to be deleted
+    }
+
     int getValueAt(int row, int col) {
         return grid[row][col];
     }
