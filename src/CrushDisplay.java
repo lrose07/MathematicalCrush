@@ -7,6 +7,8 @@ class CrushDisplay {
 
     private CrushController cont;
 
+    private CrushButton[][] allButtons;
+
     private final int BOARD_SIZE = 8;
 
     CrushDisplay(CrushController _cont) {
@@ -36,7 +38,7 @@ class CrushDisplay {
 
     private void createButtons(JPanel pan) {
 
-        CrushButton[][] allButtons = new CrushButton[8][8];
+        allButtons = new CrushButton[8][8];
 
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
@@ -55,5 +57,13 @@ class CrushDisplay {
 
     private void crushButtonClicked(int x, int y) {
         cont.crushButtonClicked(x, y);
+    }
+
+    void updateView(int[][] grid) {
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                allButtons[row][col].setText(Integer.toString(grid[row][col]));
+            }
+        }
     }
 }
