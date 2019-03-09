@@ -32,6 +32,7 @@ class CrushDisplay {
         window.setMinimumSize(new Dimension(400, 400));
         window.setPreferredSize(new Dimension(400, 400));
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.validate();
         window.setVisible(true);
 
     }
@@ -43,7 +44,10 @@ class CrushDisplay {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 allButtons[row][col] = new CrushButton(row ,col);
-                allButtons[row][col].setText(Integer.toString(cont.getSymbolByLocation(row, col)));
+                allButtons[row][col].setBackground(setButtonColor(cont.getSymbolByLocation(row, col)));
+                allButtons[row][col].setBorder(null);
+                allButtons[row][col].setOpaque(true);
+                allButtons[row][col].setBorderPainted(false);
                 allButtons[row][col].addActionListener(e -> {
                         CrushButton button = (CrushButton) e.getSource();
                         int xPos = button.getXLoc();
@@ -62,8 +66,40 @@ class CrushDisplay {
     void updateView(int[][] grid) {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                allButtons[row][col].setText(Integer.toString(grid[row][col]));
+                allButtons[row][col].setBackground(setButtonColor(grid[row][col]));
             }
         }
+    }
+
+    Color setButtonColor(int x) {
+        Color c;
+        switch (x) {
+            case 0:
+                c = Color.RED;
+                break;
+            case 1:
+                c = Color.BLUE;
+                break;
+            case 2:
+                c = Color.GREEN;
+                break;
+            case 3:
+                c = Color.MAGENTA;
+                break;
+            case 4:
+                c = Color.ORANGE;
+                break;
+            case 5:
+                c = Color.CYAN;
+                break;
+            case 6:
+                c = Color.WHITE;
+                break;
+            default:
+                c = Color.YELLOW;
+
+        }
+
+        return c;
     }
 }
