@@ -6,7 +6,9 @@ class CrushDisplay {
 
     private CrushController cont;
 
+    private JFrame window;
     private CrushButton[][] allButtons;
+    private JLabel score;
 
     private final int BOARD_SIZE = 8;
 
@@ -16,7 +18,7 @@ class CrushDisplay {
     }
 
     private void createBoard() {
-        JFrame window = new JFrame("");
+        window = new JFrame("");
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setMinimumSize(new Dimension(400, 500));
@@ -28,7 +30,7 @@ class CrushDisplay {
         scorePanel.setMinimumSize(new Dimension(400, 100));
         scorePanel.setPreferredSize(new Dimension(400, 100));
 
-        JLabel score = new JLabel("Score: " + cont.getScore());
+        score = new JLabel("Score: " + cont.getScore());
         scorePanel.add(score);
 
         createButtons(boardPanel);
@@ -78,6 +80,8 @@ class CrushDisplay {
                 allButtons[row][col].setBackground(getButtonColor(grid[row][col]));
             }
         }
+        score.setText("Score: " + cont.getScore());
+        window.repaint();
     }
 
     private Color getButtonColor(int x) {

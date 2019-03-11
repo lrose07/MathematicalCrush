@@ -10,6 +10,8 @@ class CrushController {
     private ArrayList<int[]> matchesFoundList = new ArrayList<>();
     private int[][] matchesArray;
 
+    private int score = 0;
+
     CrushController() {
         grid = new CrushGrid(this);
         view = new CrushDisplay(this);
@@ -20,7 +22,10 @@ class CrushController {
         checkForMatches(x, y);
         convertMatchesListToArray();
         sortByX(matchesArray);
-        if (matchesArray.length > 1) grid.update(matchesArray);
+        if (matchesArray.length > 1) {
+            updateScore();
+            grid.update(matchesArray);
+        }
         if (!grid.isThereAMatchLeft()) {
             noMatches();
         }
@@ -84,7 +89,14 @@ class CrushController {
         System.out.println("no matches");
     }
 
+    private void updateScore() {
+        int newScore = matchesArray.length * 100;
+        //System.out.println(newScore);
+        score = score + newScore;
+
+    }
+
     int getScore() {
-        return 5000;
+        return score;
     }
 }
