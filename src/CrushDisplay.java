@@ -1,7 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class CrushDisplay {
 
@@ -20,17 +19,26 @@ class CrushDisplay {
         JFrame window = new JFrame("");
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.setMinimumSize(new Dimension(400, 400));
-        mainPanel.setPreferredSize(new Dimension(400, 400));
+        mainPanel.setMinimumSize(new Dimension(400, 500));
+        mainPanel.setPreferredSize(new Dimension(400, 500));
         JPanel boardPanel = new JPanel(new GridLayout(BOARD_SIZE, BOARD_SIZE));
+        boardPanel.setMinimumSize(new Dimension(400, 400));
+        boardPanel.setPreferredSize(new Dimension(400, 400));
+        JPanel scorePanel = new JPanel(new FlowLayout());
+        scorePanel.setMinimumSize(new Dimension(400, 100));
+        scorePanel.setPreferredSize(new Dimension(400, 100));
+
+        JLabel score = new JLabel("Score: " + cont.getScore());
+        scorePanel.add(score);
 
         createButtons(boardPanel);
 
         mainPanel.add(boardPanel);
+        mainPanel.add(scorePanel);
         window.add(mainPanel);
 
-        window.setMinimumSize(new Dimension(400, 400));
-        window.setPreferredSize(new Dimension(400, 400));
+        window.setMinimumSize(new Dimension(400, 500));
+        window.setPreferredSize(new Dimension(400, 500));
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.validate();
         window.setVisible(true);
@@ -44,10 +52,11 @@ class CrushDisplay {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 allButtons[row][col] = new CrushButton(row ,col);
-                allButtons[row][col].setBackground(setButtonColor(cont.getSymbolByLocation(row, col)));
+                allButtons[row][col].setBackground(getButtonColor(cont.getSymbolByLocation(row, col)));
                 allButtons[row][col].setBorder(null);
                 allButtons[row][col].setOpaque(true);
-                allButtons[row][col].setBorderPainted(false);
+                allButtons[row][col].setBorderPainted(true);
+                allButtons[row][col].setBorder(new LineBorder(Color.BLACK));
                 allButtons[row][col].addActionListener(e -> {
                         CrushButton button = (CrushButton) e.getSource();
                         int xPos = button.getXLoc();
@@ -66,12 +75,12 @@ class CrushDisplay {
     void updateView(int[][] grid) {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                allButtons[row][col].setBackground(setButtonColor(grid[row][col]));
+                allButtons[row][col].setBackground(getButtonColor(grid[row][col]));
             }
         }
     }
 
-    Color setButtonColor(int x) {
+    private Color getButtonColor(int x) {
         Color c;
         switch (x) {
             case 0:

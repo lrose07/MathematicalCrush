@@ -10,8 +10,6 @@ class CrushController {
     private ArrayList<int[]> matchesFoundList = new ArrayList<>();
     private int[][] matchesArray;
 
-    int recurseCount = 0;
-
     CrushController() {
         grid = new CrushGrid(this);
         view = new CrushDisplay(this);
@@ -19,17 +17,13 @@ class CrushController {
 
     void crushButtonClicked(int x, int y) {
         matchesFoundList.clear();
-        recurseCount = 0;
         checkForMatches(x, y);
         convertMatchesListToArray();
-        System.out.println("matchesArray in controller: " + matchesArray.length);
-        sortByY(matchesArray);
-        for (int[] out : matchesArray) {
-            for (int in : out) {
-                System.out.println(in);
-            }
-        }
+        sortByX(matchesArray);
         if (matchesArray.length > 1) grid.update(matchesArray);
+        if (!grid.isThereAMatchLeft()) {
+            noMatches();
+        }
     }
 
     private void checkForMatches(int initRow, int initCol) {
@@ -66,7 +60,6 @@ class CrushController {
     }
 
     private void convertMatchesListToArray() {
-        System.out.println("matchesFoundList: " + matchesFoundList.size());
         matchesArray = new int[matchesFoundList.size()][2];
         for (int i = 0; i < matchesFoundList.size(); i++) {
             matchesArray[i][0] = matchesFoundList.get(i)[0];
@@ -74,8 +67,8 @@ class CrushController {
         }
     }
 
-    private void sortByY(int[][] arr) {
-        Arrays.sort(arr, Comparator.comparingDouble(a -> a[1]));
+    private void sortByX(int[][] arr) {
+        Arrays.sort(arr, Comparator.comparingDouble(a -> a[0]));
         matchesArray = arr.clone();
     }
 
@@ -85,5 +78,13 @@ class CrushController {
 
     void getUpdatedGrid(int[][] grid) {
         view.updateView(grid);
+    }
+
+    private void noMatches() {
+        System.out.println("no matches");
+    }
+
+    int getScore() {
+        return 5000;
     }
 }
