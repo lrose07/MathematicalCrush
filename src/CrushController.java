@@ -18,6 +18,8 @@ class CrushController {
     }
 
     void crushButtonClicked(int x, int y) {
+        // noMatches();
+        // uncomment above line for testing game end conditions
         matchesFoundList.clear();
         checkForMatches(x, y);
         convertMatchesListToArray();
@@ -87,6 +89,7 @@ class CrushController {
 
     private void noMatches() {
         System.out.println("no matches");
+        new NoMatchesView(this);
     }
 
     private void updateScore() {
@@ -96,5 +99,14 @@ class CrushController {
 
     int getScore() {
         return score;
+    }
+
+    void resetGame() {
+        // repopulate grid
+        grid.populateGrid();
+        // clear score
+        score = 0;
+        // update view to match new grid
+        view.updateView(grid.getGrid());
     }
 }
