@@ -90,10 +90,8 @@ class CrushController {
     }
 
     private void updateScore() {
-        int newScore = matchesArray.length * 100;
-        //System.out.println(newScore);
-        score = score + newScore;
-
+        double newScore = Math.pow(2, matchesArray.length-2) * 100;
+        score = score + (int)newScore;
     }
 
     int getScore() {
